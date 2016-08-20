@@ -8,6 +8,7 @@
 // @version     1
 // @grant       GM_addStyle
 // @run-at   document-start
+
 // ==/UserScript==
 
 /* Метод решения проблемы  с fixed нав баром, реализованый ниже  - это самое ужасное, что можно было придумать. Но мне надо было убрать этот ненавистный nav bar. Вначале хотел просто сделать его релативный, но тогда это выливалось в проблему на странцие сообщений. */
@@ -36,8 +37,12 @@ GM_addStyle(".im-page.im-page_classic .im-page--dialogs{margin-top:84px !importa
 
 GM_addStyle("#apps_wrap{width: 825px !important;} #apps_featured_slider{width:825px !important;} .apps_cat_wrap{text-align:center !important;} .apps_cat_row{margin-left:auto !important; margin-right:auto !important; display:inline-block !important; padding:10px !important; float: initial !important;} .audio_rows_header {top:0 !important; position:relative !important;} .audio_friend_name, .audio_friend_name_now{padding:10px 0 3px 10px !important;} .audio_friend{padding:5px 0px !important; font-size:11.5px !important; } .ow_ava.ow_ava_small{border-radius:0px !important;} .verticalMenu{display:block !important;} ._825widthFix{width:825px !important;} #photos_albums_block{width:825px !important;} #photos_albums_block .photos_albums{text-align:center !important;} #photos_all_block{width:825px !important;} #photos_all_block .photos_container_pretty_grid{text-align:center !important;} .photos_period_delimiter_fixed{position:relative !important;} .friends_lists .friends_lists_group{font-size:11px !important;} .friends_field_title{font-size:12px !important;} .ui_search_fltr_control{font-size:11px !important;} .ui_tabs_header, .ui_tabs_sub_header{font-size:12px !important;} .ui_tabs_box .ui_tab, .ui_tabs_box .ui_tab_sel, .ui_tabs_header .ui_tab, .ui_tabs_header .ui_tab_plain, .ui_tabs_header .ui_tab_sel, .ui_tabs_sub_header .ui_tab, .ui_tabs_sub_header .ui_tab_plain, .ui_tabs_sub_header .ui_tab_sel{line-height:14px !important; height:14px !important;} .ui_search_fltr{font-size:11px !important;} .page_block_header{font-size: 14px !important;} .page_block_header .header_side_link, .page_block_sub_header .header_side_link, .ui_tabs_header .header_side_link, .ui_tabs_sub_header .header_side_link{font-size:12px !important;} .adsPageFixHeader{width: 1220px !important;}");
 
-/* Проверка на смены Url. */
+/* Проверка на смены Url. Проблема с кнопкой назад/вперёд решена, пока, что костыль в 500 миллисекунд. Проблема заключается в том, что url меняется ДО загрузки страницы, как итог стили присваиваются совсем другой странице.
+Как костыль, убрал проверку пр hashchanged и просто каждые 20мс вызываю функцию changeCssRules Overkill, но если даль интервал больше - видно, как меняются стили. Видел, как люди делают и 1мс - значит можно. Правда о их адекватности тоже сложно судить.*/
 
+setInterval(changeCssRules,20);
+
+/*
 var fireOnHashChangesToo = true;
 var pageURLCheckTimer = setInterval(
     function() {
@@ -52,31 +57,29 @@ var pageURLCheckTimer = setInterval(
         }
     }, 111
 );
+*/
 
 /* При различных Url добавляем или удаляем класс. Можно было сделать по-нормальному, без этого скрипта, но было как-то лениво.  Существует правда одна проблема - так и не смог понять почему при перехода на страницу путём кнпоки назад/вперёд класс не добавляется. OnHashChanges работает, проблема именно в скрипте ниже. */
 
-function changeCssRules(a) {
-
+function changeCssRules() {
+var a = location.pathname;
     if (a.startsWith('/audios')) {
         a = "/audios"
     }
     switch (a) {
         case "/audios":
-
             $(".ui_rmenu_item, .ui_rmenu_subitem").addClass("verticalMenu");
-
-            break;
+            break;       
         case "/docs":
             $(".ui_rmenu_item, .ui_rmenu_subitem").addClass("verticalMenu");
             $(".wide_column_left").addClass("_825widthFix");
-
-
+            break;        
+         case "notifier.php":          
             break;
         case "/feed":
             $(".ui_rmenu_item, .ui_rmenu_subitem").addClass("verticalMenu");
             $(".wide_column_left").addClass("_825widthFix");
             break;
-
         case "/groups":
             $(".ui_rmenu_item, .ui_rmenu_subitem").addClass("verticalMenu");
             $(".wide_column_left").addClass("_825widthFix");
@@ -95,5 +98,5 @@ function changeCssRules(a) {
             $("#page_header_cont .back").removeClass("adsPageFixHeader");
 
     }
-   
+    
 }
