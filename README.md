@@ -19,8 +19,3 @@
 * Попытался вернуть "старый дух" ВК путём использования старых твиков интерфейса.
 * Диалог сообщений выглядит, как старый. Вкладки перенесены наверх.
 * Круглые фотографии к месту и не к месту.
-
-##Как это выглядит:
-![alt profile](https://2.bp.blogspot.com/-Xj0CyOFZUSs/V7gVr4E5ZHI/AAAAAAAAAhU/dB6P7neWuHEZF1JKlu953gGbeiFrfiAiwCLcB/s1600/1.png)
-![alt chat](https://1.bp.blogspot.com/-fyRs99qRxgk/V7gVr2s7MSI/AAAAAAAAAhc/U5kkJqonF6AfjAxNdsRE4Aglbn1ZYVzhgCEw/s1600/2.png)
-![alt public](https://3.bp.blogspot.com/-O-oLbMAChRY/V7gVr9w9zZI/AAAAAAAAAhY/ViOEGqP-XhUBQ13CG5PQpA29rKdA9HdswCEw/s1600/3.png)
